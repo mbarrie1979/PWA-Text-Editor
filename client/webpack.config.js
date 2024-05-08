@@ -16,7 +16,7 @@ module.exports = () => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './index.html', 
+        template: './index.html', // Ensure this points to the right path
         title: 'JATE'
       }),
       new WebpackPwaManifest({
@@ -24,16 +24,16 @@ module.exports = () => {
         short_name: 'App',
         description: 'Your App Description',
         background_color: '#ffffff',
-        crossorigin: 'use-credentials', 
+        crossorigin: 'use-credentials',
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
-            sizes: [96, 128, 192, 256, 384, 512]
+            sizes: [96, 128, 192, 256, 384, 512] // Ensure these files are available
           }
         ]
       }),
       new InjectManifest({
-        swSrc: './src-sw.js', 
+        swSrc: './src-sw.js',
         swDest: 'service-worker.js'
       })
     ],
@@ -52,9 +52,17 @@ module.exports = () => {
               presets: ['@babel/preset-env']
             }
           }
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif|svg)$/,
+          type: 'asset/resource',
+          generator: {
+            filename: 'images/[name][ext][query]' // Outputs images to 'dist/images'
+          }
         }
       ],
     },
   };
 };
+
 
