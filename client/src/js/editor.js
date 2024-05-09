@@ -26,8 +26,24 @@ export default class {
     // Fall back to localStorage if nothing is stored in indexeddb, and if neither is available, set the value to header.
     getDb().then((data) => {
       console.info('Loaded data from IndexedDB, injecting into editor');
-      this.editor.setValue(data || localData || header);
+      // Check if data is an array and convert it to a string if necessary
+      let valueToSet = '';
+      if (Array.isArray(data) && data.length) {
+        // Assuming the object has a property that contains the text you want to edit
+        valueToSet = data[0].text; // Adjust 'text' based on your object's actual structure
+      } else if (typeof data === 'string') {
+        valueToSet = data;
+      } else {
+        valueToSet = localData || header;
+      }
+
+      // Ensure the value is a string
+      this.editor.setValue(valueToSet.toString());
+    }).catch((error) => {
+      console.error('Failed to load data from IndexedDB:', error);
+      this.editor.setValue(header);
     });
+
 
     this.editor.on('change', () => {
       localStorage.setItem('content', this.editor.getValue());
