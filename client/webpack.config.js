@@ -13,6 +13,7 @@ module.exports = () => {
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -28,7 +29,8 @@ module.exports = () => {
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
-            sizes: [96, 128, 192, 256, 384, 512] // Ensure these files are available
+            sizes: [96, 128, 192, 256, 384, 512], 
+            destination: path.join('assets', 'icons')
           }
         ]
       }),
@@ -62,6 +64,12 @@ module.exports = () => {
         }
       ],
     },
+    devServer: {
+      static: './dist', // Specifies the static files location
+      hot: true, // Enable Hot Module Replacement
+      port: 3000, // Specify the port to run on
+      open: true // Automatically open the browser after the server starts
+    }
   };
 };
 

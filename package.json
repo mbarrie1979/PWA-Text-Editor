@@ -10,6 +10,8 @@
     "build": "cd client && npm run build",
     "install": "cd server && npm i && cd ../client && npm i",
     "client": "cd client && npm start",
+    "clean": "rm -rf client/dist",
+    "prebuild": "npm run clean",
     "push": "git add -A && git commit -m \"$npm_config_message\" && git push origin develop"
   },
   "keywords": [],
